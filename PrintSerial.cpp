@@ -54,6 +54,16 @@ void PrintSerial::log(const String &message)
     {
         setColor("\033[37m"); // Código de cor ANSI para branco
         Serial.write(message.c_str(), message.length());
+        setColor("\033[0m"); // Resetar cor
+    }
+}
+
+void PrintSerial::logln(const String &message)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        setColor("\033[37m"); // Código de cor ANSI para branco
+        Serial.write(message.c_str(), message.length());
         Serial.write('\n');
         setColor("\033[0m"); // Resetar cor
     }
