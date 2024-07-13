@@ -1,10 +1,10 @@
 #include "PrintSerial.h"
+#define SERIAL_COLOR //turn-on of turn-off the Color prints
 
 uint8_t PRINT_LEVEL;
 
 PrintSerial::PrintSerial()
 {
-    // Construtor, se necessário
 }
 
 /**
@@ -37,57 +37,77 @@ bool PrintSerial::begin(int baudrate, uint8_t print_level)
     return true;
 }
 
-void PrintSerial::done(const String &message)
+void PrintSerial::done(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 3)
     {
-        setColor("\033[32m"); // Código de cor ANSI para verde
+        #ifdef SERIAL_COLOR
+        setColor("\033[32m"); // Green color ANSI code
+        #endif
         Serial.write(message.c_str(), message.length());
         Serial.write('\n');
-        setColor("\033[0m"); // Resetar cor
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset Color
+        #endif
     }
 }
 
-void PrintSerial::log(const String &message)
+void PrintSerial::log(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
     {
-        setColor("\033[37m"); // Código de cor ANSI para branco
+        #ifdef SERIAL_COLOR
+        setColor("\033[37m"); // White color ANSI code
+        #endif
         Serial.write(message.c_str(), message.length());
-        setColor("\033[0m"); // Resetar cor
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
     }
 }
 
-void PrintSerial::logln(const String &message)
+void PrintSerial::logln(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
     {
-        setColor("\033[37m"); // Código de cor ANSI para branco
+        #ifdef SERIAL_COLOR
+        setColor("\033[37m"); // White color ANSI code
+        #endif
         Serial.write(message.c_str(), message.length());
         Serial.write('\n');
-        setColor("\033[0m"); // Resetar cor
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
     }
 }
 
-void PrintSerial::warning(const String &message)
+void PrintSerial::warning(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 4 || PRINT_LEVEL == 6)
     {
-        setColor("\033[33m"); // Código de cor ANSI para amarelo
+        #ifdef SERIAL_COLOR
+        setColor("\033[33m"); // Yellow color ANSI code
+        #endif
         Serial.write(message.c_str(), message.length());
         Serial.write('\n');
-        setColor("\033[0m"); // Resetar cor
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset Color
+        #endif
     }
 }
 
-void PrintSerial::error(const String &message)
+void PrintSerial::error(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 5 || PRINT_LEVEL == 6)
     {
-        setColor("\033[31m"); // Código de cor ANSI para vermelho
+        #ifdef SERIAL_COLOR
+        setColor("\033[31m"); // Red color ANSI code
+        #endif
         Serial.write(message.c_str(), message.length());
         Serial.write('\n');
-        setColor("\033[0m"); // Resetar cor
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
     }
 }
 
