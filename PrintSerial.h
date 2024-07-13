@@ -10,11 +10,11 @@ public:
     bool begin(int baudrate, uint8_t print_level);
 
     // Métodos de impressão com diferentes cores
-    void done(const String &message);
-    void log(const String &message);
-    void logln(const String &message);
-    void warning(const String &message);
-    void error(const String &message);
+    void done(const std::string &message);
+    void log(const std::string &message);
+    void logln(const std::string &message);
+    void warning(const std::string &message);
+    void error(const std::string &message);
 
 private:
     void setColor(const char *colorCode);
