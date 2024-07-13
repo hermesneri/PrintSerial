@@ -66,6 +66,7 @@ void PrintSerial::log(const std::string &message)
     }
 }
 
+/*
 void PrintSerial::logln(const std::string &message)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
@@ -77,6 +78,29 @@ void PrintSerial::logln(const std::string &message)
         Serial.write('\n');
         #ifdef SERIAL_COLOR
         setColor("\033[0m"); // Reset color
+        #endif
+    }
+}*/
+
+void PrintSerial::logln(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        char buffer[256]; // Buffer para a mensagem formatada
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[37m"); // Código ANSI para cor branca
+        #endif
+
+        Serial.println(buffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Resetar cor
         #endif
     }
 }
