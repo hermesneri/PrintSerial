@@ -13,7 +13,7 @@ public:
     void done(const std::string &message);
     void log(const std::string &message);
     // void logln(const std::string &message);
-    void logln(const char* format, ...)
+    void logln(const char* format, ...);
     void warning(const std::string &message);
     void error(const std::string &message);
 
