@@ -1,5 +1,12 @@
+/**
+ * @file PrintSerial.cpp
+ * @author github.com/hermesneri
+ * @brief 
+ * @version 1.2
+ * @date 2024
+ */
 #include "PrintSerial.h"
-#define SERIAL_COLOR //turn-on or turn-off the Color prints
+#define SERIAL_COLOR //turn-on or turn-off the Color print
 
 uint8_t PRINT_LEVEL;
 

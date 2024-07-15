@@ -1,3 +1,14 @@
+/**
+ * Examples of all print options
+ * @file example.ino
+ * @author github.com/hermesneri
+ * @brief 
+ * @version 1.1
+ * @date July 2024
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "PrintSerial.h"
 
 PrintSerial SerialPrint;
@@ -6,7 +17,6 @@ void setup() {
     // Initialize serial communication and configure print level
     SerialPrint.begin(115200, 1); // 115200 baud rate, print level 1 (all messages)
 
-    // Examples of all print options
 
     // DONE message
     SerialPrint.done("Setup completed");

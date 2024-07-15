@@ -1,3 +1,10 @@
+/**
+ * @file PrintSerial.h
+ * @author github.com/hermesneri
+ * @brief 
+ * @version 1.2
+ * @date 2024
+ */
 #ifndef PrintSerial_h
 #define PrintSerial_h
 
@@ -48,7 +55,7 @@ Ciano: \033[46m
 Branco: \033[47m
 
 >> Atributes:
-Resetar: \033[0m
-Negrito: \033[1m
-Sublinhado: \033[4m
+Reset: \033[0m
+Bold: \033[1m
+Underlined: \033[4m
 */
