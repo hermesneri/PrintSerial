@@ -1,5 +1,5 @@
 #include "PrintSerial.h"
-#define SERIAL_COLOR //turn-on of turn-off the Color prints
+#define SERIAL_COLOR //turn-on or turn-off the Color prints
 
 uint8_t PRINT_LEVEL;
 
@@ -11,7 +11,7 @@ PrintSerial::PrintSerial()
  * @brief Configure the baudrate and the level of Prints
  * '0' to NO prints/
  * '1' to print All/
- * '2' to just LOG prints/
+ * '2' to just LOG prints and infos/
  * '3' to just DONE prints/
  * '4' to just WARNING prints/
  * '5' to just ERROR prints/
@@ -37,56 +37,11 @@ bool PrintSerial::begin(int baudrate, uint8_t print_level)
     return true;
 }
 
-void PrintSerial::done(const std::string &message)
+void PrintSerial::done(const char* format, ...)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 3)
     {
-        #ifdef SERIAL_COLOR
-        setColor("\033[32m"); // Green color ANSI code
-        #endif
-        Serial.write(message.c_str(), message.length());
-        Serial.write('\n');
-        #ifdef SERIAL_COLOR
-        setColor("\033[0m"); // Reset Color
-        #endif
-    }
-}
-
-void PrintSerial::log(const std::string &message)
-{
-    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
-    {
-        #ifdef SERIAL_COLOR
-        setColor("\033[37m"); // White color ANSI code
-        #endif
-        Serial.write(message.c_str(), message.length());
-        #ifdef SERIAL_COLOR
-        setColor("\033[0m"); // Reset color
-        #endif
-    }
-}
-
-/*
-void PrintSerial::logln(const std::string &message)
-{
-    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
-    {
-        #ifdef SERIAL_COLOR
-        setColor("\033[37m"); // White color ANSI code
-        #endif
-        Serial.write(message.c_str(), message.length());
-        Serial.write('\n');
-        #ifdef SERIAL_COLOR
-        setColor("\033[0m"); // Reset color
-        #endif
-    }
-}*/
-
-void PrintSerial::logln(const char* format, ...)
-{
-    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
-    {
-        char buffer[256]; // Buffer para a mensagem formatada
+        char buffer[256];
 
         va_list args;
         va_start(args, format);
@@ -94,41 +49,152 @@ void PrintSerial::logln(const char* format, ...)
         va_end(args);
 
         #ifdef SERIAL_COLOR
-        setColor("\033[37m"); // Código ANSI para cor branca
+        setColor("\033[32m"); // Green color ANSI code
         #endif
 
         Serial.println(buffer);
 
-        #ifdef SERIAL_COLOR
-        setColor("\033[0m"); // Resetar cor
-        #endif
-    }
-}
-
-void PrintSerial::warning(const std::string &message)
-{
-    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 4 || PRINT_LEVEL == 6)
-    {
-        #ifdef SERIAL_COLOR
-        setColor("\033[33m"); // Yellow color ANSI code
-        #endif
-        Serial.write(message.c_str(), message.length());
-        Serial.write('\n');
         #ifdef SERIAL_COLOR
         setColor("\033[0m"); // Reset Color
         #endif
     }
 }
 
-void PrintSerial::error(const std::string &message)
+void PrintSerial::log(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        char buffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[37m"); // White color ANSI code
+        #endif
+
+        Serial.println(buffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
+    }
+}
+
+void PrintSerial::logln(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        char buffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[37m"); // White color ANSI code
+        #endif
+
+        Serial.println(buffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
+    }
+}
+
+void PrintSerial::warning(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 4 || PRINT_LEVEL == 6)
+    {
+        char buffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[33m"); // Yellow color ANSI code
+        #endif
+
+        Serial.println(buffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset Color
+        #endif
+    }
+}
+
+void PrintSerial::error(const char* format, ...)
 {
     if (PRINT_LEVEL == 1 || PRINT_LEVEL == 5 || PRINT_LEVEL == 6)
     {
+        char buffer[256];
+        char errorBuffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        snprintf(errorBuffer, sizeof(errorBuffer), "[ERRO] %s", buffer);
+
         #ifdef SERIAL_COLOR
         setColor("\033[31m"); // Red color ANSI code
         #endif
-        Serial.write(message.c_str(), message.length());
-        Serial.write('\n');
+
+        Serial.println(errorBuffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
+    }
+}
+
+void PrintSerial::infos(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        char buffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[36m"); // Cyan color ANSI code
+        #endif
+
+        Serial.println(buffer);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[0m"); // Reset color
+        #endif
+    }
+}
+
+void PrintSerial::backg(const char* format, ...)
+{
+    if (PRINT_LEVEL == 1 || PRINT_LEVEL == 2)
+    {
+        char buffer[256];
+
+        va_list args;
+        va_start(args, format);
+        vsnprintf(buffer, sizeof(buffer), format, args);
+        va_end(args);
+
+        #ifdef SERIAL_COLOR
+        setColor("\033[46m"); // Cyan background color ANSI code
+        #endif
+
+        Serial.println(buffer);
+
         #ifdef SERIAL_COLOR
         setColor("\033[0m"); // Reset color
         #endif
